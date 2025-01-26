@@ -1,0 +1,83 @@
+{% extends "layout.html" %}
+
+{% block body %}
+<div class="row">
+    <!-- Profil Kartı -->
+    <div class="col-md-4 mb-4">
+        <div class="card">
+            <div class="card-header">
+                <h4>Profil Bilgileri</h4>
+            </div>
+            <div class="card-body">
+                <div class="text-center mb-4">
+                    {% if user.profile_image %}
+                    <img src="{{ url_for('static', filename='uploads/profile_images/' + user.profile_image) }}" 
+                         class="rounded-circle mb-3" width="120" height="120" alt="Profil">
+                    {% endif %}
+                    <h5 class="card-title">{{ user.name }}</h5>
+                    <p class="text-muted">{{ user.username }}</p>
+                </div>
+                <hr>
+                <div class="user-info">
+                    <p><strong>Email:</strong> {{ user.email }}</p>
+                    <p><strong>Katılım Tarihi:</strong> {{ user.created_date }}</p>
+                    <p><strong>Toplam Etkinlik:</strong> {{ events|length }}</p>
+                </div>
+                <a href="/edit_profile" class="btn btn-info btn-block">Profili Düzenle</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Etkinlikler Bölümü -->
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h4 class="mb-0">Etkinliklerim</h4>
+                <a href="/addevent" class="btn btn-primary">Yeni Etkinlik Ekle</a>
+            </div>
+            <div class="card-body">
+                {% if events %}
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>Başlık</th>
+                                <th>Tarih</th>
+                                <th>Yer</th>
+                                <th>Durum</th>
+                                <th>İşlemler</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for event in events %}
+                            <tr>
+                                <td>{{ event.title }}</td>
+                                <td>{{ event.event_date }}</td>
+                                <td>{{ event.location }}</td>
+                                <td>
+                                    <span class="badge badge-{{ 'success' if event.status == 'active' else 'secondary' }}">
+                                        {{ event.status }}
+                                    </span>
+                                </td>
+                                <td>
+                                    <div class="btn-group btn-group-sm">
+                                        <a href="/event/{{ event.id }}" class="btn btn-primary">Görüntüle</a>
+                                        <a href="/edit/{{ event.id }}" class="btn btn-info">Düzenle</a>
+                                        <a href="/delete/{{ event.id }}" class="btn btn-danger" onclick="return confirm('Bu etkinliği silmek istediğinizden emin misiniz?')">Sil</a>
+                                    </div>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                {% else %}
+                <div class="alert alert-info">
+                    Henüz etkinlik eklenmemiş. Yeni bir etkinlik eklemek için üstteki butonu kullanabilirsiniz.
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 

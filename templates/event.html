@@ -1,0 +1,33 @@
+{% extends "layout.html" %}
+
+{% block body %}
+<h3>Etkinliklerimiz</h3>
+<hr>
+{% if events %}
+    <div class="row">
+        {% for event in events %}
+            <div class="col-md-4 mb-3">
+                <div class="card">
+                    <div class="card-body">
+                        {% if event.image_url %}
+                            <img src="{{ url_for('static', filename=event.image_url) }}" class="card-img-top mb-3" alt="{{ event.title }}">
+                        {% endif %}
+                        <h5 class="card-title">{{ event.title }}</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">{{ event.event_date }}</h6>
+                        <p class="card-text">{{ event.content[:150] }}{% if event.content|length > 150 %}...{% endif %}</p>
+                        <p class="card-text">
+                            <small class="text-muted">Yer: {{ event.location }}</small><br>
+                            <small class="text-muted">Düzenleyen: {{ event.author }}</small>
+                        </p>
+                        <a href="/event/{{ event.id }}" class="btn btn-primary">Detaylar</a>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% else %}
+    <div class="alert alert-warning">
+        Henüz etkinlik bulunmuyor...
+    </div>
+{% endif %}
+{% endblock %} 

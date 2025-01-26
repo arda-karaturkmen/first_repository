@@ -1,0 +1,28 @@
+{% extends "layout.html" %}
+
+{% block body %}
+{% from "includes/formhelpers.html" import render_field %}
+
+<div class="card">
+    <div class="card-header">
+        <h3>Etkinliği Düzenle (Admin)</h3>
+    </div>
+    <div class="card-body">
+        <form method="post" enctype="multipart/form-data">
+            {{ render_field(form.title, class="form-control") }}
+            {{ render_field(form.content, class="form-control") }}
+            {{ render_field(form.event_date, class="form-control", type="date") }}
+            {{ render_field(form.location, class="form-control") }}
+            <div class="form-group">
+                <label for="image">Etkinlik Görseli</label>
+                <input type="file" name="image" class="form-control-file" accept="image/*">
+                {% if event.image_url %}
+                <img src="{{ url_for('static', filename=event.image_url) }}" class="mt-2" style="max-height: 200px;">
+                {% endif %}
+            </div>
+            <button type="submit" class="btn btn-primary">Güncelle</button>
+            <a href="/admin/events" class="btn btn-secondary">İptal</a>
+        </form>
+    </div>
+</div>
+{% endblock %} 

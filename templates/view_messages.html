@@ -1,0 +1,42 @@
+{% extends "layout.html" %}
+
+{% block body %}
+<h3>Gelen Mesajlar</h3>
+<hr>
+{% if received_messages %}
+    <h4>Gelen Mesajlar</h4>
+    <div class="list-group">
+        {% for message in received_messages %}
+            <div class="list-group-item">
+                <h5 class="mb-1">{{ message.sender }}</h5>
+                <p class="mb-1">{{ message.message }}</p>
+                <small class="text-muted">{{ message.created_at.strftime('%d.%m.%Y %H:%M') }}</small>
+            </div>
+        {% endfor %}
+    </div>
+{% else %}
+    <div class="alert alert-info">
+        Henüz gelen mesajınız yok.
+    </div>
+{% endif %}
+
+<hr>
+
+<h3>Gönderilen Mesajlar</h3>
+{% if sent_messages %}
+    <h4>Gönderilen Mesajlar</h4>
+    <div class="list-group">
+        {% for message in sent_messages %}
+            <div class="list-group-item">
+                <h5 class="mb-1">Kime: {{ message.receiver }}</h5>
+                <p class="mb-1">{{ message.message }}</p>
+                <small class="text-muted">{{ message.created_at.strftime('%d.%m.%Y %H:%M') }}</small>
+            </div>
+        {% endfor %}
+    </div>
+{% else %}
+    <div class="alert alert-info">
+        Henüz gönderdiğiniz mesaj yok.
+    </div>
+{% endif %}
+{% endblock %} 

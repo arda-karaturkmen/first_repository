@@ -1,0 +1,112 @@
+<nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+    <!-- Sol taraf boş bırakılacak -->
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarCollapse">
+        <!-- Sol menü -->
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+                <a class="nav-link" href="/">Ana Sayfa</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/about">Hakkımızda</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/event">Etkinliklerimiz</a>
+            </li>
+        </ul>
+
+        <!-- Orta Logo -->
+        <a class="navbar-brand mx-auto" href="/">
+            <img src="{{ url_for('static', filename='img/logo.png') }}" height="40" alt="OKUYAMAYANLAR">
+        </a>
+
+        <!-- Sağ menü -->
+        <ul class="navbar-nav ml-auto">
+            {% if session["logged_in"] %}
+                <li class="nav-item">
+                    <a class="nav-link" href="/dashboard">Kontrol Paneli</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/messages">Mesajlar</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/logout">Çıkış Yap</a>
+                </li>
+                {% if session.get("is_admin") %}
+                <li class="nav-item">
+                    <a class="nav-link" href="/admin/events">Admin Panel</a>
+                </li>
+                {% endif %}
+            {% else %}
+                <li class="nav-item">
+                    <a class="nav-link" href="/login">Giriş Yap</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/register">Kayıt Ol</a>
+                </li>
+            {% endif %}
+        </ul>
+    </div>
+</nav>
+
+<style>
+/* Navbar stillerini özelleştirme */
+.navbar {
+    padding: 0.5rem 1rem;
+    background-color: #2c3e50 !important; /* Koyu mavi-gri arka plan */
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1); /* Hafif gölge */
+}
+
+.navbar-brand {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    margin: 0;
+}
+
+.navbar-dark .navbar-nav .nav-link {
+    color: rgba(255,255,255,0.8) !important; /* Link rengi */
+    transition: color 0.3s ease; /* Hover animasyonu */
+    padding: 0.5rem 1rem;
+}
+
+.navbar-dark .navbar-nav .nav-link:hover {
+    color: #3498db !important; /* Hover durumunda mavi renk */
+}
+
+.navbar-dark .navbar-toggler {
+    border-color: rgba(255,255,255,0.5);
+}
+
+/* Aktif menü öğesi */
+.navbar-dark .navbar-nav .active > .nav-link {
+    color: #3498db !important;
+    font-weight: 500;
+}
+
+/* Logo stil */
+.navbar-brand img {
+    transition: transform 0.3s ease; /* Logo hover animasyonu */
+}
+
+.navbar-brand:hover img {
+    transform: translateX(-50%) scale(1.05); /* Hover'da hafif büyüme */
+}
+
+/* Mobil görünüm için logo pozisyonu */
+@media (max-width: 768px) {
+    .navbar-brand {
+        position: relative;
+        left: auto;
+        transform: none;
+        margin-right: 1rem;
+    }
+    
+    .navbar-brand:hover img {
+        transform: scale(1.05);
+    }
+}
+</style>

@@ -1,0 +1,43 @@
+{% extends "layout.html" %}
+
+{% block body %}
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+            <div class="card">
+                <div class="card-header">
+                    <h4>Profil Düzenle</h4>
+                </div>
+                <div class="card-body">
+                    {% if user.profile_image %}
+                    <div class="text-center mb-4">
+                        <img src="{{ url_for('static', filename='uploads/profile_images/' + user.profile_image) }}" 
+                             class="rounded-circle mb-3" width="150" height="150" alt="Profil">
+                    </div>
+                    {% endif %}
+                    
+                    <form method="post" enctype="multipart/form-data">
+                        <div class="form-group">
+                            <label for="name">İsim Soyisim</label>
+                            <input type="text" class="form-control" id="name" name="name" value="{{ form.name.data }}" required minlength="4" maxlength="25">
+                        </div>
+                        <div class="form-group mt-3">
+                            <label for="email">Email Adresi</label>
+                            <input type="email" class="form-control" id="email" name="email" value="{{ form.email.data }}" required>
+                        </div>
+                        <div class="form-group mt-3">
+                            <label for="profile_image">Profil Fotoğrafı</label>
+                            <input type="file" class="form-control" id="profile_image" name="profile_image" accept="image/png,image/jpeg,image/gif">
+                            <small class="form-text text-muted">İzin verilen formatlar: PNG, JPG, JPEG, GIF</small>
+                        </div>
+                        <div class="form-group mt-4">
+                            <button type="submit" class="btn btn-primary">Profili Güncelle</button>
+                            <a href="{{ url_for('dashboard') }}" class="btn btn-secondary">İptal</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,50 @@
+{% extends "layout.html" %}
+
+{% block body %}
+<div class="card">
+    <div class="card-header">
+        <h3>{{ event.title }}</h3>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-8">
+                {% if event.image_url %}
+                    <img src="{{ url_for('static', filename=event.image_url) }}" class="img-fluid mb-3" alt="{{ event.title }}">
+                {% endif %}
+                <p class="lead">{{ event.content }}</p>
+            </div>
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5>Etkinlik Bilgileri</h5>
+                        <hr>
+                        <p><strong>Tarih:</strong> {{ event.event_date }}</p>
+                        <p><strong>Yer:</strong> {{ event.location }}</p>
+                        <p><strong>Düzenleyen:</strong> {{ event.author }}</p>
+                        <p><strong>Oluşturulma:</strong> {{ event.created_date }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        {% if session.get("logged_in", False) and session["username"] == event.author %}
+        <hr>
+        <div class="btn-group">
+            <a href="/edit/{{ event.id }}" class="btn btn-info">Düzenle</a>
+            <a href="/delete/{{ event.id }}" class="btn btn-danger" onclick="return confirm('Bu etkinliği silmek istediğinizden emin misiniz?')">Sil</a>
+        </div>
+        {% elif session.get("logged_in", False) %}
+        <hr>
+        <div class="btn-group">
+            <a href="/edit/{{ event.id }}" class="btn btn-info">Düzenle</a>
+            <a href="/delete/{{ event.id }}" class="btn btn-danger" onclick="return confirm('Bu etkinliği silmek istediğinizden emin misiniz?')">Sil</a>
+            <a href="/message/{{ event.id }}" class="btn btn-primary">Mesaj Gönder</a>
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+<div class="mt-4">
+    <a href="/event" class="btn btn-secondary">← Etkinlik Listesine Dön</a>
+</div>
+{% endblock %} 

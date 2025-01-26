@@ -1,0 +1,51 @@
+{% extends "layout.html" %}
+
+{% block body %}
+<h3>Admin Paneli - Tüm Etkinlikler</h3>
+<hr>
+{% if events %}
+<div class="table-responsive">
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Başlık</th>
+                <th>Tarih</th>
+                <th>Yer</th>
+                <th>Düzenleyen</th>
+                <th>Durum</th>
+                <th>İşlemler</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for event in events %}
+            <tr>
+                <td>{{ event.id }}</td>
+                <td>{{ event.title }}</td>
+                <td>{{ event.event_date }}</td>
+                <td>{{ event.location }}</td>
+                <td>{{ event.author }}</td>
+                <td>
+                    <span class="badge badge-{{ 'success' if event.approved else 'warning' }}">
+                        {{ 'Onaylı' if event.approved else 'Onaysız' }}
+                    </span>
+                </td>
+                <td>
+                    <a href="/admin/edit/{{ event.id }}" class="btn btn-info btn-sm">Düzenle</a>
+                    <a href="/delete/{{ event.id }}" class="btn btn-danger btn-sm" onclick="return confirm('Bu etkinliği silmek istediğinizden emin misiniz?')">Sil</a>
+                    <a href="/event/{{ event.id }}" class="btn btn-primary btn-sm">Görüntüle</a>
+                    {% if not event.approved %}
+                    <a href="/admin/approve/{{ event.id }}" class="btn btn-success btn-sm">Onayla</a>
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% else %}
+<div class="alert alert-warning">
+    Henüz etkinlik bulunmuyor...
+</div>
+{% endif %}
+{% endblock %} 
